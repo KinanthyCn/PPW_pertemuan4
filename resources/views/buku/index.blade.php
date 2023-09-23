@@ -17,6 +17,7 @@
                 <th> Harga</th>
                 <th> Tgl.terbit</th>
                 <th> Aksi</th>
+                <th> Hapus </th>
             </tr>
 </thead>
 <tbody>
@@ -27,13 +28,27 @@
         <td>{{ $buku->penulis}}</td>
         <td>{{ "Rp ".number_format($buku->harga, 2, ', ', '.')}}</td>
         <td>{{ date('d-m-Y', strtotime($buku->tgl_terbit)) }}</td>
-        <td><button class="btn btn-primary" type="submit">Edit</button></td>
+        <td>
+    <p>
+        <a href="{{ route('buku.edit', $buku->id) }}" class="btn btn-primary" >Edit</a>
+    </p>
+</td>
+        <td>  
+            <p>
+                 <form action="{{ route('buku.destroy', $buku->id) }}" method="post">@csrf <button
+            onclick="return confirm('yakin mau dihapus?')">Hapus</button></form>
+            </p>
+    </td>
     </tr>
-    @endforeach
+@endforeach
 </tbody>
 </table>
+
 <p>Jumlah Data: {{ $jumlahData }}</p>
 <p>Total Harga Buku: {{ "Rp ".number_format($totalHarga, 2, ', ','.') }}</p>
+<p>
+    <a href="{{ route('buku.create')}}">Tambah Buku</a>
+</p>
 
 </body>
 </html>

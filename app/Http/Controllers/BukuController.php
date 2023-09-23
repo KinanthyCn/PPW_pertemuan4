@@ -16,7 +16,7 @@ class BukuController extends Controller
         $jumlahData = Buku::count(); // Mendapatkan jumlah data
         $totalHarga = Buku::sum('harga');
 
-        return view('index', compact('data_buku', 'jumlahData','totalHarga'));
+        return view('buku.index', compact('data_buku', 'jumlahData','totalHarga'));
 
         
     }
@@ -24,18 +24,46 @@ class BukuController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
+    public function create(){
+        return view('buku.create');
+    }
+    public function store(Request $request){
+        Buku::create([
+            'judul' => $request->judul,
+            'penulis' => $request->penulis,
+            'harga' => $request->harga,
+            'tgl_terbit' => $request->tgl_terbit,
+        ]);
+        return redirect('/buku');
+    }
+
+    //edit
+    public function edit($id){
+        $data_buku= Buku::find($id);
+        return view('buku.edit', compact('data_buku'));
+    }
+    //update
+    public function update(Request $request, string $id){
+        $data_buku = Buku::find($id);
+        $data_buku->update([
+            'judul' => $request->nama,
+            'penulis' => $request->penulis,
+            'harga' => $request->harga,
+            'tgl/terbit' => $request->tgl_terbit,
+        ]);
+        return redirect('/buku');
+    }
+    //destroy
+    public function destroy($id){
+        $data_buku = Buku::find($id);
+        $data_buku->delete();
+        return redirect('/buku');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    
 
     /**
      * Display the specified resource.
@@ -48,24 +76,15 @@ class BukuController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+    
 }
